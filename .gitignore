@@ -36,3 +36,10 @@ uv.lock
 
 # Ignore data directory
 data/
+
+# Session notes
+.notes/
+
+# Ignore agent directory
+.agent/
+
