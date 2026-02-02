@@ -1,9 +1,10 @@
 import sqlite3
 from contextlib import contextmanager
+from core.conf import DB_BASE_PATH
 
 class Database:
     def __init__(self, db_name: str):
-        self.db_name = db_name
+        self.db_name = DB_BASE_PATH + db_name
 
     @contextmanager
     def connect(self):
