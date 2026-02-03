@@ -15,14 +15,14 @@ def create_post(
     ポストを新規作成する
     
     Args:
-        conn: データベース接続
-        user_id: ユーザーID
-        content: ポスト内容
-        reply_to_id: 返信先のポストID
-        repost_of_id: リポスト元のポストID
+        conn (sqlite3.Connection): データベース接続
+        user_id (int): ユーザーID
+        content (str): ポスト内容
+        reply_to_id (int | None, optional): 返信先のポストID。
+        repost_of_id (int | None, optional): リポスト元のポストID。
     
     Returns:
-        新規作成されたポストのID
+        int: 新規作成されたポストのID
     """
     cursor = conn.cursor()
     cursor.execute("""
@@ -41,10 +41,11 @@ def get_all_posts(
     全てのポストを取得する
     
     Args:
-        conn: データベース接続
+        conn (sqlite3.Connection): データベース接続
+        limit (int, optional): 取得件数。デフォルトはDEFAULT_LIMIT。
     
     Returns:
-        全てのポストのリスト
+        list[tuple]: 全てのポストのリスト
     """
     cursor = conn.cursor()
     cursor.execute(
@@ -72,11 +73,11 @@ def get_post_by_id(
     IDでポストを取得する
     
     Args:
-        conn: データベース接続
-        post_id: ポストID
+        conn (sqlite3.Connection): データベース接続
+        post_id (int): ポストID
     
     Returns:
-        ポストのタプル、またはNone
+        tuple | None: ポストのタプル。存在しない場合はNone。
     """
     cursor = conn.cursor()
     cursor.execute(
@@ -104,11 +105,12 @@ def get_posts_by_user_id(
     ユーザーIDでポストを取得する
     
     Args:
-        conn: データベース接続
-        user_id: ユーザーID
+        conn (sqlite3.Connection): データベース接続
+        user_id (int): ユーザーID
+        limit (int, optional): 取得件数。デフォルトはDEFAULT_LIMIT。
     
     Returns:
-        ユーザーIDで取得したポストのリスト
+        list[tuple]: ユーザーIDで取得したポストのリスト
     """
     cursor = conn.cursor()
     cursor.execute(
@@ -171,9 +173,12 @@ def update_post(
     ポストを更新する
     
     Args:
-        conn: データベース接続
-        post_id: ポストID
-        content: ポスト内容
+        conn (sqlite3.Connection): データベース接続
+        post_id (int): ポストID
+        content (str): ポスト内容
+    
+    Returns:
+        bool: 更新成功可否
     """
     cursor = conn.cursor()
     cursor.execute("UPDATE posts SET content = ? WHERE id = ?", (content, post_id))
@@ -189,8 +194,11 @@ def delete_post(
     ポストを削除する
     
     Args:
-        conn: データベース接続
-        post_id: ポストID
+        conn (sqlite3.Connection): データベース接続
+        post_id (int): ポストID
+    
+    Returns:
+        bool: 削除成功可否
     """
     cursor = conn.cursor()
     cursor.execute("DELETE FROM posts WHERE id = ?", (post_id,))

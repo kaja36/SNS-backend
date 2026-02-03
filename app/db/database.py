@@ -10,13 +10,16 @@ class Database:
     def connect(self):
         """
         データベースへの接続を開き、使用後に自動で閉じるコンテキストマネージャー
+        
         with文で使用することで、処理完了後に自動的にconnection.close()が呼ばれる。
         DBファイルが存在しない場合は新規作成される。
 
         Yields:
             sqlite3.Connection: データベースへの接続
+        
         Raises:
             sqlite3.Error: データベース接続エラー
+        
         Example:
             with db.connect() as conn:
                 cursor = conn.cursor()
@@ -52,6 +55,9 @@ class Database:
     def init_db(self) -> None:
         """
         データベースを初期化する
+        
+        usersテーブルとpostsテーブルを作成する。
+        テーブルが既に存在する場合は何もしない。
         """
         with self.connect() as conn:
             try:

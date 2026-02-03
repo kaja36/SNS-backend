@@ -13,14 +13,14 @@ def create_user(
     ユーザーを作成する
     
     Args:
-        conn: データベース接続
-        username: ユーザー名
-        password_hash: パスワードハッシュ
-        biography: 自己紹介（デフォルトは空文字列）
-        avatar_url: アバターURL（デフォルトは空文字列）
+        conn (sqlite3.Connection): データベース接続
+        username (str): ユーザー名
+        password_hash (str): パスワードハッシュ
+        biography (str, optional): 自己紹介。デフォルトは空文字列。
+        avatar_url (str, optional): アバターURL。デフォルトは空文字列。
     
     Returns:
-        作成されたユーザーのID
+        int: 作成されたユーザーのID
     """
     cursor = conn.cursor()
     cursor.execute("""
@@ -41,10 +41,10 @@ def get_all_users(conn: sqlite3.Connection) -> list[tuple]:
     全てのユーザーを取得する
     
     Args:
-        conn: データベース接続
+        conn (sqlite3.Connection): データベース接続
     
     Returns:
-        全てのユーザーのタプルリスト
+        list[tuple]: 全てのユーザーのタプルリスト
     """
     cursor = conn.cursor()
     cursor.execute(
@@ -65,11 +65,11 @@ def get_user_by_id(conn: sqlite3.Connection, user_id: int) -> tuple | None:
     IDでユーザーを取得する
     
     Args:
-        conn: データベース接続
-        user_id: ユーザーID
+        conn (sqlite3.Connection): データベース接続
+        user_id (int): ユーザーID
     
     Returns:
-        ユーザーのタプル、またはNone
+        tuple | None: ユーザーのタプル。存在しない場合はNone。
     """
     cursor = conn.cursor()
     cursor.execute(
@@ -92,11 +92,11 @@ def get_user_by_username(conn: sqlite3.Connection, username: str) -> tuple | Non
     ユーザー名でユーザーを取得する
     
     Args:
-        conn: データベース接続
-        username: ユーザー名
+        conn (sqlite3.Connection): データベース接続
+        username (str): ユーザー名
     
     Returns:
-        ユーザーのタプル、またはNone
+        tuple | None: ユーザーのタプル。存在しない場合はNone。
     """
     cursor = conn.cursor()
     cursor.execute(
@@ -127,15 +127,15 @@ def update_user(
     ユーザーを更新する
     
     Args:
-        conn: データベース接続
-        user_id: ユーザーID
-        username: ユーザー名
-        password_hash: パスワードハッシュ
-        biography: 自己紹介
-        avatar_url: アバターURL
+        conn (sqlite3.Connection): データベース接続
+        user_id (int): ユーザーID
+        username (str): ユーザー名
+        password_hash (str): パスワードハッシュ
+        biography (str): 自己紹介
+        avatar_url (str): アバターURL
     
     Returns:
-        更新成功可否
+        bool: 更新成功可否
     """
     cursor = conn.cursor()
     cursor.execute("""
@@ -156,11 +156,11 @@ def delete_user(conn: sqlite3.Connection, user_id: int) -> bool:
     ユーザーを削除する
     
     Args:
-        conn: データベース接続
-        user_id: ユーザーID
+        conn (sqlite3.Connection): データベース接続
+        user_id (int): ユーザーID
     
     Returns:
-        削除成功可否
+        bool: 削除成功可否
     """
     cursor = conn.cursor()
     cursor.execute("""
@@ -176,12 +176,12 @@ def prove_user_exists(conn: sqlite3.Connection, username: str, password_hash: st
     ユーザーが存在するかどうかを確認する
     
     Args:
-        conn: データベース接続
-        username: ユーザー名
-        password_hash: パスワードハッシュ
+        conn (sqlite3.Connection): データベース接続
+        username (str): ユーザー名
+        password_hash (str): パスワードハッシュ
     
     Returns:
-        ユーザーが存在する場合はTrue、存在しない場合はFalse
+        bool: ユーザーが存在する場合はTrue、存在しない場合はFalse
     """
     cursor = conn.cursor()
     cursor.execute(
