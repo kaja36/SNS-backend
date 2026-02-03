@@ -43,7 +43,7 @@ async def get_timeline(
         total_posts=len(all_posts),
     )
 
-@router.get("/{username}", response_model=ResponsePost)
+@router.get("/{username}", response_model=ResponsePosts)
 async def get_own_posts(
     username: str,
     conn=Depends(get_db),
@@ -143,7 +143,7 @@ async def delete_post(
         )
     
     # 自分の投稿か確認
-    if existing_post.user_id != user_id:
+    if existing_post["user_id"] != user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You are not authorized to delete this post"

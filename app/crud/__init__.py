@@ -12,6 +12,6 @@ __all__ = [
     "get_all_posts",
     "get_post_by_id",
     "get_posts_by_user_id",
-"update_post",
+    "update_post",
     "delete_post",
 ]

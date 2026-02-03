@@ -114,4 +114,3 @@ async def delete_user(
             detail="Failed to delete user"
         )
     # ログアウトする
-    return None
