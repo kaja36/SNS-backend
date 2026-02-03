@@ -38,7 +38,7 @@ def create_user(
 # ==================== Read ====================
 def get_all_users(conn: sqlite3.Connection) -> list[sqlite3.Row]:
     """
-    全てのユーザーを取得する
+    全てのユーザーの公開情報を取得する
     
     Args:
         conn (sqlite3.Connection): データベース接続
@@ -62,7 +62,7 @@ def get_all_users(conn: sqlite3.Connection) -> list[sqlite3.Row]:
 
 def get_user_by_id(conn: sqlite3.Connection, user_id: int) -> sqlite3.Row | None:
     """
-    IDでユーザーを取得する
+    IDでユーザーの公開情報を取得する
     
     Args:
         conn (sqlite3.Connection): データベース接続
@@ -89,7 +89,7 @@ def get_user_by_id(conn: sqlite3.Connection, user_id: int) -> sqlite3.Row | None
 
 def get_user_by_username(conn: sqlite3.Connection, username: str) -> sqlite3.Row | None:
     """
-    ユーザー名でユーザーを取得する
+    ユーザー名でユーザーの公開情報を取得する
     
     Args:
         conn (sqlite3.Connection): データベース接続
