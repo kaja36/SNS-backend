@@ -50,6 +50,7 @@ class ResponsePosts(BaseModel):
 # ==================== OTHER ====================
 import sqlite3
 
+# sqlite3のRowをResponsePostに変換する関数
 def row_to_response_post(row: sqlite3.Row) -> ResponsePost:
     return ResponsePost(
         post_id=row["post_id"],

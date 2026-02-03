@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.posts import (
     CreatePost,
-    GetPostReplies,
     UpdatePost,
-    DeletePost,
     ResponsePost,
     ResponsePosts,
     row_to_response_post,
