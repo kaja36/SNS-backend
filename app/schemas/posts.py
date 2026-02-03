@@ -3,21 +3,13 @@ from datetime import datetime
 from typing import Optional
 
 # ==================== Request ====================
-# ============ Create ============
 class CreatePost(BaseModel):
     content: str
     reply_to_id: Optional[int] = None
     repost_of_id: Optional[int] = None
 
-# ============ Update ============
 class UpdatePost(BaseModel):
-    post_id: int
     content: str
-
-# ============ Delete ============
-class DeletePost(BaseModel):
-    post_id: int
-
 
 # ==================== Response ====================
 class ResponsePost(BaseModel):
