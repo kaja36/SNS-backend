@@ -1,5 +1,5 @@
-from crud.users import *
-from crud.posts import *
+from .users import *
+from .posts import *
 
 __all__ = [
     "create_user",

@@ -7,7 +7,7 @@ def create_user(
     username: str,
     password_hash: str,
     biography: str = "",
-    avatar_url: str = "",
+    avatar_img: str = "",
 ) -> int:
     """
     ユーザーを作成する
@@ -17,7 +17,7 @@ def create_user(
         username (str): ユーザー名
         password_hash (str): パスワードハッシュ
         biography (str, optional): 自己紹介。デフォルトは空文字列。
-        avatar_url (str, optional): アバターURL。デフォルトは空文字列。
+        avatar_img (str, optional): アバター画像。デフォルトは空文字列。
     
     Returns:
         int: 作成されたユーザーのID
@@ -28,15 +28,15 @@ def create_user(
             username,
             password_hash,
             biography,
-            avatar_url
+            avatar_img
         ) VALUES (?, ?, ?, ?)
-    """, (username, password_hash, biography, avatar_url))
+    """, (username, password_hash, biography, avatar_img))
     # データを保存
     conn.commit()
     return cursor.lastrowid
 
 # ==================== Read ====================
-def get_all_users(conn: sqlite3.Connection) -> list[tuple]:
+def get_all_users(conn: sqlite3.Connection) -> list[sqlite3.Row]:
     """
     全てのユーザーを取得する
     
@@ -44,7 +44,7 @@ def get_all_users(conn: sqlite3.Connection) -> list[tuple]:
         conn (sqlite3.Connection): データベース接続
     
     Returns:
-        list[tuple]: 全てのユーザーのタプルリスト
+        list[sqlite3.Row]: 全てのユーザーのタプルリスト
     """
     cursor = conn.cursor()
     cursor.execute(
@@ -53,14 +53,14 @@ def get_all_users(conn: sqlite3.Connection) -> list[tuple]:
             id,
             username,
             biography,
-            avatar_url,
+            avatar_img,
             created_at
         FROM users
         """
     )
     return cursor.fetchall()
 
-def get_user_by_id(conn: sqlite3.Connection, user_id: int) -> tuple | None:
+def get_user_by_id(conn: sqlite3.Connection, user_id: int) -> sqlite3.Row | None:
     """
     IDでユーザーを取得する
     
@@ -69,7 +69,7 @@ def get_user_by_id(conn: sqlite3.Connection, user_id: int) -> tuple | None:
         user_id (int): ユーザーID
     
     Returns:
-        tuple | None: ユーザーのタプル。存在しない場合はNone。
+        sqlite3.Row | None: ユーザーのタプル。存在しない場合はNone。
     """
     cursor = conn.cursor()
     cursor.execute(
@@ -78,7 +78,7 @@ def get_user_by_id(conn: sqlite3.Connection, user_id: int) -> tuple | None:
             id,
             username,
             biography,
-            avatar_url,
+            avatar_img,
             created_at
         FROM users
         WHERE id = ?
@@ -87,7 +87,7 @@ def get_user_by_id(conn: sqlite3.Connection, user_id: int) -> tuple | None:
     )
     return cursor.fetchone()
 
-def get_user_by_username(conn: sqlite3.Connection, username: str) -> tuple | None:
+def get_user_by_username(conn: sqlite3.Connection, username: str) -> sqlite3.Row | None:
     """
     ユーザー名でユーザーを取得する
     
@@ -96,7 +96,7 @@ def get_user_by_username(conn: sqlite3.Connection, username: str) -> tuple | Non
         username (str): ユーザー名
     
     Returns:
-        tuple | None: ユーザーのタプル。存在しない場合はNone。
+        sqlite3.Row | None: ユーザーのタプル。存在しない場合はNone。
     """
     cursor = conn.cursor()
     cursor.execute(
@@ -105,7 +105,7 @@ def get_user_by_username(conn: sqlite3.Connection, username: str) -> tuple | Non
             id,
             username,
             biography,
-            avatar_url,
+            avatar_img,
             created_at
         FROM users
         WHERE username = ?
@@ -121,7 +121,7 @@ def update_user(
     username: str,
     password_hash: str,
     biography: str,
-    avatar_url: str,
+    avatar_img: str,
 ) -> bool:
     """
     ユーザーを更新する
@@ -132,7 +132,7 @@ def update_user(
         username (str): ユーザー名
         password_hash (str): パスワードハッシュ
         biography (str): 自己紹介
-        avatar_url (str): アバターURL
+        avatar_img (str): アバター画像
     
     Returns:
         bool: 更新成功可否
@@ -144,9 +144,9 @@ def update_user(
             username = ?,
             password_hash = ?,
             biography = ?,
-            avatar_url = ?
+            avatar_img = ?
         WHERE id = ?
-    """, (username, password_hash, biography, avatar_url, user_id))
+    """, (username, password_hash, biography, avatar_img, user_id))
     conn.commit()
     return cursor.rowcount > 0
 

@@ -1,6 +1,6 @@
 import sqlite3
 from contextlib import contextmanager
-from core.conf import DB_BASE_PATH
+from app.core.conf import DB_BASE_PATH
 
 class Database:
     def __init__(self, db_name: str):
@@ -50,7 +50,9 @@ class Database:
             conn.close()
         """
         print(f"getting connection to {self.db_name}")
-        return sqlite3.connect(self.db_name)
+        conn = sqlite3.connect(self.db_name, check_same_thread=False)
+        conn.row_factory = sqlite3.Row
+        return conn
 
     def init_db(self) -> None:
         """
@@ -70,7 +72,7 @@ class Database:
                         username        TEXT        NOT NULL UNIQUE,
                         password_hash   TEXT        NOT NULL,
                         biography       TEXT        DEFAULT "",
-                        avatar_url      TEXT        DEFAULT "",
+                        avatar_img      TEXT        DEFAULT "",
                         created_at      DATETIME    DEFAULT CURRENT_TIMESTAMP
                     )
                 """)
