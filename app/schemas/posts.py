@@ -5,20 +5,17 @@ from typing import Optional
 # ==================== Request ====================
 # ============ Create ============
 class CreatePost(BaseModel):
-    user_id: int
     content: str
     reply_to_id: Optional[int] = None
     repost_of_id: Optional[int] = None
 
 # ============ Update ============
 class UpdatePost(BaseModel):
-    user_id: int
     post_id: int
     content: str
 
 # ============ Delete ============
 class DeletePost(BaseModel):
-    user_id: int
     post_id: int
 
 

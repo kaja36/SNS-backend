@@ -10,16 +10,21 @@ from app.schemas.posts import (
 )
 from app.db.session import get_db
 from app.crud import posts
+from app.core.dependencies import authenticate_user
 
 router = APIRouter()
 
 # ==================== Create ====================
 @router.post("/", response_model=ResponsePost, status_code=201)
-async def create_post(post: CreatePost, conn=Depends(get_db)):
+async def create_post(
+    post: CreatePost,
+    conn=Depends(get_db),
+    user_id: int = Depends(authenticate_user)
+):
     """投稿を作成する"""
     new_post_id = posts.create_post(
         conn,
-        post.user_id,
+        user_id,
         post.content,
         post.reply_to_id,
         post.repost_of_id,
@@ -29,7 +34,10 @@ async def create_post(post: CreatePost, conn=Depends(get_db)):
 
 # ==================== Read ====================
 @router.get("/", response_model=ResponsePosts)
-async def get_timeline(conn=Depends(get_db)):
+async def get_timeline(
+    conn=Depends(get_db),
+    user_id: int = Depends(authenticate_user)
+):
     """タイムラインを取得する"""
     all_posts = posts.get_all_posts(conn)
     return ResponsePosts(
@@ -37,17 +45,25 @@ async def get_timeline(conn=Depends(get_db)):
         total_posts=len(all_posts),
     )
 
-@router.get("/{user_id}", response_model=ResponsePost)
-async def get_own_posts(user_id: int, conn=Depends(get_db)):
+@router.get("/{username}", response_model=ResponsePost)
+async def get_own_posts(
+    username: str,
+    conn=Depends(get_db),
+    user_id: int = Depends(authenticate_user)
+):
     """ユーザーの投稿を取得する"""
-    own_posts = posts.get_posts_by_user_id(conn, user_id)
+    own_posts = posts.get_posts_by_username(conn, username)
     return ResponsePosts(
         posts=[row_to_response_post(p) for p in own_posts],
         total_posts=len(own_posts),
     )
 
 @router.get("/{post_id}", response_model=ResponsePost)
-async def get_post(post_id: int, conn=Depends(get_db)):
+async def get_post(
+    post_id: int,
+    conn=Depends(get_db),
+    user_id: int = Depends(authenticate_user)
+):
     """投稿を取得する"""
     post = posts.get_post_by_id(conn, post_id)
     if post is None:
@@ -58,7 +74,11 @@ async def get_post(post_id: int, conn=Depends(get_db)):
     return row_to_response_post(post)
 
 @router.get("/{post_id}/replies", response_model=ResponsePosts)
-async def get_post_replies(post_id: int, conn=Depends(get_db)):
+async def get_post_replies(
+    post_id: int,
+    conn=Depends(get_db),
+    user_id: int = Depends(authenticate_user)
+):
     """投稿への返信を取得する"""
     # 元の投稿が存在するか確認
     original_post = posts.get_post_by_id(conn, post_id)
@@ -76,7 +96,12 @@ async def get_post_replies(post_id: int, conn=Depends(get_db)):
 
 # ==================== Update ====================
 @router.put("/{post_id}", response_model=ResponsePost)
-async def update_post(post_id: int, post: UpdatePost, conn=Depends(get_db)):
+async def update_post(
+    post_id: int,
+    post: UpdatePost,
+    conn=Depends(get_db),
+    user_id: int = Depends(authenticate_user)
+):
     """投稿を更新する"""
     # 投稿が存在するか確認
     existing_post = posts.get_post_by_id(conn, post_id)
@@ -87,7 +112,7 @@ async def update_post(post_id: int, post: UpdatePost, conn=Depends(get_db)):
         )
 
     # 自分の投稿か確認
-    if existing_post.user_id != post.user_id:
+    if existing_post.user_id != user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You are not authorized to update this post"
@@ -105,7 +130,11 @@ async def update_post(post_id: int, post: UpdatePost, conn=Depends(get_db)):
 
 # ==================== Delete ====================
 @router.delete("/{post_id}", status_code=204)
-async def delete_post(post_id: int, conn=Depends(get_db)):
+async def delete_post(
+    post_id: int,
+    conn=Depends(get_db),
+    user_id: int = Depends(authenticate_user)
+):
     """投稿を削除する"""
     # 投稿が存在するか確認
     existing_post = posts.get_post_by_id(conn, post_id)
@@ -116,7 +145,7 @@ async def delete_post(post_id: int, conn=Depends(get_db)):
         )
     
     # 自分の投稿か確認
-    if existing_post.user_id != post.user_id:
+    if existing_post.user_id != user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You are not authorized to delete this post"
