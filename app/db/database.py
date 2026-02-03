@@ -1,6 +1,6 @@
 import sqlite3
 from contextlib import contextmanager
-from app.core.conf import DB_BASE_PATH
+from core.conf import DB_BASE_PATH
 
 class Database:
     def __init__(self, db_name: str):

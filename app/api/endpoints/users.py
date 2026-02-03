@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, status, Depends
-from app.db.session import get_db
-from app.core.dependencies import authenticate_user
-from app.schemas.users import Signup, Login, UpdateUser, UpdatePassword, ResponseUser, ResponseToken, row_to_response_user
-from app.crud import users
-from app.core.password import pwd_context
+from db.session import get_db
+from core.dependencies import authenticate_user
+from schemas.users import Signup, Login, UpdateUser, UpdatePassword, ResponseUser, ResponseToken, row_to_response_user
+from crud import users
+from core.password import pwd_context
 
 router = APIRouter()
 

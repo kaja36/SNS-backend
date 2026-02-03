@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from app.schemas.posts import (
+from schemas.posts import (
     CreatePost,
     UpdatePost,
     ResponsePost,
     ResponsePosts,
     row_to_response_post,
 )
-from app.db.session import get_db
-from app.crud import posts
-from app.core.dependencies import authenticate_user
+from db.session import get_db
+from crud import posts
+from core.dependencies import authenticate_user
 
 router = APIRouter()
 

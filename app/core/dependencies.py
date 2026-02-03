@@ -1,6 +1,6 @@
 from fastapi import Header, Depends, HTTPException, status
-from app.crud import users
-from app.db.session import get_db
+from crud import users
+from db.session import get_db
 
 async def authenticate_user(
     x_username: str = Header(..., alias="X-Username"),
