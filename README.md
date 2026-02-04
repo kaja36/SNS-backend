@@ -47,10 +47,10 @@ erDiagram
 
 ### 認証
 
-リクエストヘッダーに `X-Username` を設定：
+リクエストヘッダーに `User-name` を設定：
 
 ```
-X-Username: <username>
+User-name: <username>
 ```
 
 > 将来的には `Authorization: Bearer <token>` に置き換え予定
