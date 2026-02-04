@@ -14,8 +14,7 @@ erDiagram
         string username UK
         string email UK
         string password_hash
-        string display_name
-        string bio
+        string biograpy
         string avatar_url
         datetime created_at
     }
