@@ -7,7 +7,7 @@ from schemas.posts import (
     row_to_response_post,
 )
 from db.session import get_db
-from crud import posts
+from crud import posts,users
 from core.dependencies import authenticate_user
 
 router = APIRouter()
@@ -43,17 +43,23 @@ async def get_timeline(
         total_posts=len(all_posts),
     )
 
-@router.get("/{username}", response_model=ResponsePosts)
-async def get_own_posts(
+@router.get("/{username}/posts", response_model=ResponsePosts)
+async def get_user_posts(
     username: str,
     conn=Depends(get_db),
     user_id: int = Depends(authenticate_user)
 ):
     """ユーザーの投稿を取得する"""
-    own_posts = posts.get_posts_by_username(conn, username)
+    user = users.get_user_by_username(conn, username)
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    user_posts = posts.get_posts_by_user_id(conn, user["id"])
     return ResponsePosts(
-        posts=[row_to_response_post(p) for p in own_posts],
-        total_posts=len(own_posts),
+        posts=[row_to_response_post(p) for p in user_posts],
+        total_posts=len(user_posts),
     )
 
 @router.get("/{post_id}", response_model=ResponsePost)
