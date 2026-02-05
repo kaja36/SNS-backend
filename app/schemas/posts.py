@@ -28,6 +28,7 @@ class ResponsePost(BaseModel):
     is_liked (bool, optional) : いいねしているかどうか
     repost_of_id (int, optional) : リポスト元のポストID
     repost_of_content (str, optional) : リポスト元のポスト内容
+    reply_to_id (int, optional) : 返信元のポストID
     """
     post_id: int
     username: str
@@ -41,6 +42,7 @@ class ResponsePost(BaseModel):
     is_liked: Optional[bool]
     repost_of_id: Optional[int]
     repost_of_content: Optional[str]
+    reply_to_id: Optional[int]
 
 class ResponsePosts(BaseModel):
     posts: list[ResponsePost]
@@ -65,4 +67,5 @@ def row_to_response_post(row: sqlite3.Row) -> ResponsePost:
         is_liked=False,
         repost_of_id=row["repost_of_id"],
         repost_of_content=row["repost_of_content"],
+        reply_to_id=row["reply_to_id"],
     )
