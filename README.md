@@ -347,6 +347,9 @@ source venv/bin/activate
 # 依存関係のインストール
 pip install -r requirements.txt
 
+# db用 dataディレクトリの追加
+mkdir data
+
 # サーバー起動
 uvicorn app.main:app --reload
 ```
