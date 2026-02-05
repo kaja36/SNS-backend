@@ -33,3 +33,13 @@ archive.zip
 uv.lock
 
 .codspeed
+
+# Ignore data directory
+data/
+
+# Session notes
+.notes/
+
+# Ignore agent directory
+.agent/
+
