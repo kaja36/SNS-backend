@@ -3,14 +3,14 @@ from crud import users
 from db.session import get_db
 
 async def authenticate_user(
-    user_name: str = Header(..., alias="X-Username"),
+    user_name: str = Header(..., alias="User-name"),
     conn = Depends(get_db)
 ) -> int:
     """
     リクエストヘッダーからユーザーを認証し、user_idを返す
     
     Args:
-        user_name: X-Username ヘッダーの値
+        user_name: User_name ヘッダーの値
         conn: データベース接続
     
     Returns:

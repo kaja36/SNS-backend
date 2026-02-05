@@ -118,4 +118,26 @@ class Database:
             except sqlite3.Error as e:
                 print(f"Error initializing database: {e}")
                 raise
+
+    def reset_db(self) -> None:
+        """
+        データベースをリセットする
         
+        usersテーブルとpostsテーブルを削除し、再作成する。
+        既存のデータはすべて失われる。
+        """
+        with self.connect() as conn:
+            try:
+                cursor = conn.cursor()
+                # テーブルの削除
+                cursor.execute("DROP TABLE IF EXISTS posts")
+                cursor.execute("DROP TABLE IF EXISTS users")
+                cursor.execute("DROP TABLE IF EXISTS likes")
+                cursor.execute("DROP TABLE IF EXISTS follows")
+                # トランザクションのコミット
+                conn.commit()
+                # テーブルの再作成
+                self.init_db()
+            except sqlite3.Error as e:
+                print(f"Error resetting database: {e}")
+                raise
