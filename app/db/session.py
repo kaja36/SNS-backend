@@ -7,3 +7,14 @@ db.init_db()
 def get_db():
     with db.connect() as conn:
         yield conn
+
+
+# ==================== OTHER ====================
+def reset_db():
+    """
+    データベースをリセットする
+    
+    usersテーブルとpostsテーブルを削除し、再作成する。
+    既存のデータはすべて失われる。
+    """
+    db.reset_db()
