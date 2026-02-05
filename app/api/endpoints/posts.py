@@ -13,7 +13,9 @@ from core.dependencies import authenticate_user
 router = APIRouter()
 
 # ==================== Create ====================
-@router.post("/", response_model=ResponsePost, status_code=201)
+# TODO：API仕様書からルーティングを設定する
+# ヒント：他のエンドポイントのルーティングを参考にすること
+
 async def create_post(
     post: CreatePost,
     conn=Depends(get_db),
@@ -37,7 +39,10 @@ async def get_timeline(
     user_id: int = Depends(authenticate_user)
 ):
     """タイムラインを取得する"""
-    all_posts = posts.get_all_posts(conn)
+    # TODO: データベースから、すべてのポストを取得する
+    # ヒント：app/crud/posts.pyのget_all_posts関数を使うこと
+    #        戻り値をall_postsに格納する
+    all_posts = _ 
     return ResponsePosts(
         posts=[row_to_response_post(p) for p in all_posts],
         total_posts=len(all_posts),
