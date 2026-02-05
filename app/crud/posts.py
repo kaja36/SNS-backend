@@ -68,13 +68,9 @@ def get_all_posts(
         list[sqlite3.Row]: 全てのポストのリスト
     """
     cursor = conn.cursor()
-    cursor.execute(
-        BASE_SELECT_POSTS + """
-        ORDER BY p.created_at DESC
-        LIMIT ?
-        """,
-        (limit,)
-    )
+    # TODO: データベースから全データを取得する
+    # ヒント：get_posts_by_user_idを参考にすること
+    
     return cursor.fetchall()
 
 def get_post_by_id(
