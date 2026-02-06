@@ -1,5 +1,5 @@
 import sqlite3
-from core.conf import DEFAULT_LIMIT
+from app.core.conf import DEFAULT_LIMIT
 
 # postsテーブルに対するCRUD操作
 
