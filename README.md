@@ -1,48 +1,3 @@
-## データベース設計
-
-```mermaid
-erDiagram
-    users ||--o{ posts : creates
-    users ||--o{ follows : follower
-    users ||--o{ follows : following
-    users ||--o{ likes : gives
-    posts ||--o{ likes : receives
-    posts ||--o{ posts : reply_to
-
-    users {
-        int id PK
-        string username UK
-        string email UK
-        string password_hash
-        string biography
-        string avatar_url
-        datetime created_at
-    }
-
-    posts {
-        int id PK
-        int user_id FK
-        string content
-        int reply_to_id FK
-        int repost_of_id FK
-        datetime created_at
-    }
-
-    follows {
-        int follower_id FK
-        int following_id FK
-        datetime created_at
-    }
-
-    likes {
-        int user_id FK
-        int post_id FK
-        datetime created_at
-    }
-```
-
----
-
 ## API仕様
 
 ### 認証
@@ -334,6 +289,51 @@ http://localhost:8000/docs
 | フレームワーク | FastAPI                         |
 | データベース   | sqlite3（Python標準ライブラリ） |
 | バリデーション | Pydantic v2                     |
+
+---
+
+## データベース設計
+
+```mermaid
+erDiagram
+    users ||--o{ posts : creates
+    users ||--o{ follows : follower
+    users ||--o{ follows : following
+    users ||--o{ likes : gives
+    posts ||--o{ likes : receives
+    posts ||--o{ posts : reply_to
+
+    users {
+        int id PK
+        string username UK
+        string email UK
+        string password_hash
+        string biography
+        string avatar_url
+        datetime created_at
+    }
+
+    posts {
+        int id PK
+        int user_id FK
+        string content
+        int reply_to_id FK
+        int repost_of_id FK
+        datetime created_at
+    }
+
+    follows {
+        int follower_id FK
+        int following_id FK
+        datetime created_at
+    }
+
+    likes {
+        int user_id FK
+        int post_id FK
+        datetime created_at
+    }
+```
 
 ---
 
