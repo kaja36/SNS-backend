@@ -39,10 +39,7 @@ async def get_timeline(
     user_id: int = Depends(authenticate_user)
 ):
     """タイムラインを取得する"""
-    # TODO: データベースから、すべてのポストを取得する
-    # ヒント：app/crud/posts.pyのget_all_posts関数を使うこと
-    #        戻り値をall_postsに格納する
-    all_posts = _ 
+    all_posts = posts.get_all_posts(conn)
     return ResponsePosts(
         posts=[row_to_response_post(p) for p in all_posts],
         total_posts=len(all_posts),
