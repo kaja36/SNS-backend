@@ -15,6 +15,7 @@ router = APIRouter()
 # ==================== Create ====================
 # TODO：API仕様書からルーティングを設定する
 # ヒント：他のエンドポイントのルーティングを参考にすること
+# @router.hoge("hoge", response_model=ResponsePost)
 
 async def create_post(
     post: CreatePost,
